@@ -9,6 +9,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -29,14 +30,10 @@ public class Subreddit {
 	@NotBlank(message = "Description is required.")
 	private String description;
 
-	private Integer voteCount = 0;
-
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "userId", referencedColumnName = "userId")
-	private User user;
+	@OneToMany(fetch = LAZY)
+	private List<Post> posts;
 	private Instant createdDate;
 
 	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "id", referencedColumnName = "id")
-	private Subreddit subreddit;
+	private User user;
 }
