@@ -28,6 +28,9 @@ public class Post {
 	private String postName;
 
 	@Nullable
+	private String url;
+	
+	@Nullable
 	@Lob
 	private String description;
 

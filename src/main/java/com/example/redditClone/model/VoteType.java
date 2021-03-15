@@ -19,10 +19,5 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VoteType {
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	private Long postId;
-	
-	@NotBlank(message="Post name cannot be empty or null")
-	private String postName;
+    private int direction;
 }
