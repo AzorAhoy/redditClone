@@ -1,23 +1,25 @@
 package com.example.redditClone.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
+import java.util.Arrays;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.time.Instant;
+import com.example.redditClone.exceptions.SpringRedditException;
 
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.IDENTITY;
+public enum VoteType {
+	UPVOTE(1), DOWNVOTE(-1);
 
-@Data
-@Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class VoteType {
-    private int direction;
+	VoteType(int direction) {
+		// TODO Auto-generated constructor stub
+	}
+
+	private int direction;
+
+	private static VoteType lookup(Integer direction) {
+		return Arrays.stream(VoteType.values()).filter(value -> value.getDirection().equals(direction)).findAny()
+				.orElseThrow(() -> new SpringRedditException("VoteNotFound"));
+	}
+
+	public Integer getDirection() {
+		// TODO Auto-generated method stub
+		return direction;
+	}
 }

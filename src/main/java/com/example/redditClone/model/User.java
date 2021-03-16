@@ -16,9 +16,9 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class User {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
