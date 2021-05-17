@@ -1,6 +1,7 @@
 package com.example.redditClone.service;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.redditClone.dto.RegisterRequest;
+import com.example.redditClone.exceptions.SpringRedditException;
 import com.example.redditClone.model.NotificationEmail;
 import com.example.redditClone.model.User;
 import com.example.redditClone.model.VerificationToken;
@@ -52,5 +54,21 @@ public class AuthService {
 		
 		verificationTokenRepository.save(verificationToken);
 		return token;
+	}
+
+	public void verifyAccount(String token) {
+		// TODO Auto-generated method stub
+		Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+		verificationToken.orElseThrow(() -> new SpringRedditException("Invalid token"));
+		fetchUserAndEnable(verificationToken.get());
+	}
+
+	@Transactional
+	private void fetchUserAndEnable(VerificationToken verificationToken) {
+		// TODO Auto-generated method stub
+		String username  = verificationToken.getUser().getUsername();
+		User user = userRepository.findByUsername(username).orElseThrow(()-> new SpringRedditException("User not found with username "+ username));
+		user.setEnabled(true);
+		userRepository.save(user);
 	}
 }
